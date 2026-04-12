@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Gender;
@@ -12,21 +13,22 @@ class GenderController extends Controller
         ->get();
 
         return response()->json([
-            'genders' => $genders
+           'genders' => $genders
         ], 200);
     }
 
-   public  function storeGender(Request $request) {
-    $validated = $request->validate ([
-        'gender' => ['required', 'min:3', 'max:30']
-    ]);
+    public function storeGender(Request $request)
+    {
+        $validated = $request->validate ([
+            'gender' => ['required', 'min:3', 'max:30']
+        ]);
 
-    Gender::create([
-        'gender' => $validated['gender']
-    ]);
+        Gender::create([
+            'gender' => $validated['gender']
+        ]);
 
-    return response()->json([
-        'message' => 'Gender Successfully Saved.'
-    ], 200);
+        return response()->json([
+            'message' => 'Gender Successfully Saved.'
+        ], 200);
    }
 }

@@ -16,34 +16,26 @@ const AddGenderForm: FC<AddGenderFormProps> = ({ onGenderAdded, refreshKey }) =>
 
     const handleStoreGender = async (e: FormEvent) => {
         try {
-            e.preventDefault()
+            e.preventDefault();
+            setLoadingStore(true);
+            const res = await GenderService.storeGender({ gender });
 
-            setLoadingStore(true)
-
-            const res = await GenderService.storeGender({ gender })
-
-            if (res.status === 200) {
-                setGender('');
+            if (res.status === 200 || res.status === 201) {
+                setGender("");
                 setErrors({});
-
                 onGenderAdded(res.data.message);
                 refreshKey()
             } else {
-                console.error('Unexpected error occured during store gender: ', res.data)
+                console.error("Unexpected status during store gender:", res.status, res.data);
             }
         } catch (error: any) {
-            if (error.response && error.response.status == 422) {
+            if (error.response && error.response.status === 422) {
                 setErrors(error.response.data.errors);
             } else {
-                console.error(
-                    "Unexpected server error occured during store gender: ",
-                    error
-                );
+                console.error("Unexpected server error during store gender:", error);
             }
-
-        }
-        finally {
-            setLoadingStore(false)
+        } finally {
+            setLoadingStore(false);
         }
     };
     return (

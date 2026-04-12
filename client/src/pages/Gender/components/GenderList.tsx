@@ -1,4 +1,5 @@
-import { useEffect, useState, type FC } from "react"
+import { useEffect, useState, type FC } from "react";
+
 import {
     Table,
     TableBody,
@@ -15,7 +16,7 @@ interface GenderListProps {
 }
 
 const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
-    const [laodingGenders, setLoadingGenders] = useState(false)
+    const [loadingGenders, setLoadingGenders] = useState(false)
     const [genders, setGenders] = useState<GenderColumns[]>([])
 
     const handleLoadGenders = async () => {
@@ -42,7 +43,7 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
 
     return (
         <>
-            <div className="overflow-hidden round-lg border border-gray-200 bg-white">
+            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
                 <div className="max-w-full max-h-[calc(100vh)] overflow-x-auto">
                     <Table>
                         <TableHeader className="border-b border-gray-200 bg-blue-600 sticky top-0 text-white text-xs">
@@ -59,29 +60,36 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-gray-100 text-gray-500 text-small">
-                            {laodingGenders ? (
-                                <TableRow >
+                            {loadingGenders ? (
+                                <TableRow>
                                     <TableCell colSpan={2} className="px-4 py-3 text-center">
                                         <Spinner size="md" />
-
                                     </TableCell>
                                 </TableRow>
-                            ) : genders.map((gender, index) => (
-                                <TableRow className="hover;bg-gray-100" key={index}>
-                                    <TableCell className="px-4 py-3 text-center">
-                                        {index + 1}
-                                    </TableCell>
-                                    <TableCell className="px-4 py-3 text-center">
-                                        {gender.gender}
+                            ) : genders.length ? (
+                                genders.map((gender, index) => (
+                                    <TableRow className="hover:bg-gray-100" key={index}>
+                                        <TableCell className="px-4 py-3 text-center">
+                                            {index + 1}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-3 text-center">
+                                            {gender.gender}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={2} className="px-4 py-3 text-center">
+                                        No genders found.
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default GenderList
+export default GenderList;

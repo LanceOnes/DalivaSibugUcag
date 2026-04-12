@@ -1,24 +1,22 @@
-import AxiosInstance from "./Axiosinstance"
+import AxiosInstance from "./Axiosinstance";
 
 const GenderService = {
     loadGenders: async () => {
         try {
-            const response = await AxiosInstance.get('/gender/loadGenders')
+            const response = await AxiosInstance.get("/gender/loadGenders");
             return response;
         } catch (error) {
-            throw error
+            throw error;
         }
     },
     storeGender: async (data: any) => {
         try {
-            const response = await AxiosInstance.post('/gender/storeGender', data);
-            return response
+            const response = await AxiosInstance.post("/gender/storeGender", data);
+            return response;
         } catch (error) {
             throw error;
         }
-
     },
-
 };
 
-export default GenderService
+export default GenderService;
