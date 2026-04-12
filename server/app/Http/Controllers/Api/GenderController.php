@@ -1,23 +1,34 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Gender;
 
 class GenderController extends Controller
 {
-   public function storeGender(Request $request) {
-    $validated = $request->validate ([
-        'gender' => ['required', 'min:3', 'max:30']
-    ]);
+    public function loadGenders() {
+        $genders = Gender::where('tbl_genders.is_deleted', false)
+            ->get();
 
-    Gender::create([
-        'gender' => $validated['gender']
-    ]);
+        return response()->json([
+           'genders' => $genders 
+        ], 200);
+    }
+    
+   public function storeGender(Request $request) 
+    {
+        $validated = $request->validate ([
+            'gender' => ['required', 'min:3', 'max:30']
+        ]);
 
-    return response()->json([
-        'message' => 'Gender Successfully Saved.'
-    ], 200);
+        Gender::create([
+            'gender' => $validated['gender']
+        ]);
+
+        return response()->json([
+            'message' => 'Gender Successfully Saved.'
+        ], 200);
    }
 }
