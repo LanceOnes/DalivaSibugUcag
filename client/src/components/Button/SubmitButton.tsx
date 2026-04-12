@@ -18,7 +18,8 @@ const SubmitButton: FC<SubmitButtonProps> = ({
         <button
             type="submit"
             disabled={loading}
-            className={`${className} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`${className} ${loading ? 'disabled:opacity-50 disabled:cursor-not-allowed rounded-lg'
+                : ''}`}
         >
             {loading ? (
                 <div className="flex items-center justify-center">
