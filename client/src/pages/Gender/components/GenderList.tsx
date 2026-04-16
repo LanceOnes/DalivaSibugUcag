@@ -36,7 +36,7 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
         } finally {
             setLoadingGenders(false);
         }
-    }
+    };
 
     useEffect(() => {
         handleLoadGenders()

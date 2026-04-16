@@ -47,7 +47,6 @@ const FloatingLabelSelect: FC<FloatingLabelSelectProps> = ({
                     focus:outline-none focus:ring-0 focus:border-blue-600 peer 
                     ${selectClassName}`
                         }`}
-                    required={required}
                     autoFocus={autoFocus}
                     disabled={disabled}
                 >
@@ -72,10 +71,10 @@ const FloatingLabelSelect: FC<FloatingLabelSelectProps> = ({
                         <span className="text-red-600 ml-1">*</span>
                     )}
                 </label>
-                {errors && errors.length > 0 && (
-                    <span className="text-red-600">{errors[0]}</span>
-                )}
             </div>
+            {errors && errors.length > 0 && (
+                <span className="text-red-600">{errors[0]}</span>
+            )}
         </>
     )
 }
