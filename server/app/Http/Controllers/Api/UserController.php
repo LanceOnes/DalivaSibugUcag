@@ -9,8 +9,21 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function loadUsers ()
+    {
+        $users = User::with(['gender'])
+        ->where('tbl_users.is_deleted', false)
+        ->get();
+
+        return response ()->json([
+            'users' => $users
+        ], 200);
+
+    }
+
     public function storeUser(Request $request)
     {
+
         $validated = $request->validate([
             'first_name' => ['required', 'string', 'max:55'],
             'middle_name' => ['nullable', 'string', 'max:55'],
@@ -20,10 +33,10 @@ class UserController extends Controller
             'birth_date' => ['required', 'date'],
             'username' => ['required', 'min:6', 'max:12', Rule::unique('tbl_users', 'username')],
             'password' => ['required', 'min:6', 'max:12', 'confirmed'],
-            'password_confirmation' => ['required', 'min:6', 'max:12'],    
+            'password_confirmation' => ['required', 'min:6', 'max:12'],
         ]);
 
-        $age = date_diff(date_create($validated['birth_date']), date_create('now'))->y;   
+        $age = date_diff(date_create($validated['birth_date']), date_create('now'))->y;
 
         User::create([
             'first_name' => $validated['first_name'],

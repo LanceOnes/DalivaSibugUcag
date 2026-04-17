@@ -52,7 +52,7 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({ onUserAdded, isOpen, onCl
 
       const res = await UserService.storeUser(payload)
 
-      if(res.status === 200) {
+      if (res.status === 200) {
         onUserAdded(res.data.message)
 
         setFirstName('');
@@ -65,6 +65,8 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({ onUserAdded, isOpen, onCl
         setPassword('');
         setPasswordConfirmation('');
         setErrors({});
+
+        handleLoadGenders();
       } else {
         console.error("Unexpected status error occured during assing user: ", res.status)
       }
@@ -83,9 +85,9 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({ onUserAdded, isOpen, onCl
   const handleLoadGenders = async () => {
     try {
       setLoadingGenders(true)
-      
+
       const res = await GenderService.loadGenders()
-      
+
       if (res.status === 200) {
         setGenders(res.data.genders)
       } else {
@@ -99,85 +101,90 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({ onUserAdded, isOpen, onCl
   };
 
   useEffect(() => {
-    handleLoadGenders()
-  }, [])
+    if (isOpen) {
+      handleLoadGenders()
+    }
+  }, [isOpen])
 
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} showCloseButton>
         <form onSubmit={handleStoreUser}>
-          <h1 className= "text-2xl font-bold mb-4">
+          <h1 className="text-2xl font-bold mb-4">
             Add User Form
           </h1>
           <div className="grid grid-cols-2 gap-4 border-b norder-gray-100 mb-4">
             <div className="col-span-2 md:col-span-1">
               <div className="mb-4">
-                <FloatingLabelInput 
-                  label="First Name" 
-                  type="text" 
-                  name="first_name" 
+                <FloatingLabelInput
+                  label="First Name"
+                  type="text"
+                  name="first_name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  required 
+                  required
                   autoFocus
                   errors={errors.first_name}
                 />
               </div>
               <div className="mb-4">
-                <FloatingLabelInput 
-                  label="Middle Name" 
-                  type="text" 
-                  name="middle_name" 
+                <FloatingLabelInput
+                  label="Middle Name"
+                  type="text"
+                  name="middle_name"
                   value={middleName}
                   onChange={(e) => setMiddleName(e.target.value)}
                   errors={errors.middle_name}
                 />
               </div>
               <div className="mb-4">
-                <FloatingLabelInput 
-                  label="Last Name" 
-                  type="text" 
-                  name="last_name" 
+                <FloatingLabelInput
+                  label="Last Name"
+                  type="text"
+                  name="last_name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  required 
+                  required
                   errors={errors.last_name}
                 />
               </div>
               <div className="mb-4">
-                <FloatingLabelInput 
-                  label="Suffix Name" 
-                  type="text" 
+                <FloatingLabelInput
+                  label="Suffix Name"
+                  type="text"
                   name="suffix_name"
                   value={suffixName}
-                  onChange={(e) => setSuffixName(e.target.value)} 
+                  onChange={(e) => setSuffixName(e.target.value)}
                   errors={errors.suffix_name}
                 />
               </div>
               <div className="mb-4">
-                <FloatingLabelSelect 
-                  label="Gender" 
+                <FloatingLabelSelect
+                  label="Gender"
                   name="gender"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
+                  required
                   errors={errors.gender}
                 >
-                  <option value="">Select Gender</option>
                   {loadingGenders ? (
                     <option value="">Loading...</option>
                   ) : (
-                    genders.map((gender, index) => (
-                      <option value={gender.gender_id} key={index}>{gender.gender}</option>
-                    ))
+                    <>
+                      <option value="">Select Gender</option>
+                      {genders.map((gender, index) => (
+                        <option value={gender.gender_id} key={index}>{gender.gender}</option>
+                      ))}
+                    </>
                   )}
                 </FloatingLabelSelect>
               </div>
             </div>
             <div className="col-span-2 md:col-span-1">
               <div className='mb-4'>
-                <FloatingLabelInput 
-                  label="Birth Date" 
-                  type="date" 
+                <FloatingLabelInput
+                  label="Birth Date"
+                  type="date"
                   name="birth_date"
                   value={birthDate}
                   onChange={(e) => setBirthDate(e.target.value)}
@@ -186,21 +193,21 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({ onUserAdded, isOpen, onCl
                 />
               </div>
               <div className="mb-4">
-                <FloatingLabelInput 
-                  label="Username" 
-                  type="text" 
+                <FloatingLabelInput
+                  label="Username"
+                  type="text"
                   name="username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)} 
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                   errors={errors.username}
                 />
               </div>
               <div className="mb-4">
-                <FloatingLabelInput 
-                  label="Password" 
-                  type="password" 
-                  name="password" 
+                <FloatingLabelInput
+                  label="Password"
+                  type="password"
+                  name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -208,13 +215,13 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({ onUserAdded, isOpen, onCl
                 />
               </div>
               <div className="mb-4">
-                <FloatingLabelInput 
-                  label="Password Confirmation" 
-                  type="password" 
+                <FloatingLabelInput
+                  label="Password Confirmation"
+                  type="password"
                   name="password_confirmation"
                   value={passwordConfirmation}
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
-                  required 
+                  required
                   errors={errors.password_confirmation}
                 />
               </div>
