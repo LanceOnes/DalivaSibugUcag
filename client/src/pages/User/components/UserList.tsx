@@ -7,9 +7,11 @@ import Spinner from "../../../components/Spinner/Spinner";
 
 interface UserListProps {
     onAddUser: () => void;
+    onEditUser: (user: userColumns| null) => void;
+    refreshKey: boolean;
 }
 
-const UserList: React.FC<UserListProps> = ({ onAddUser }) => {
+const UserList: React.FC<UserListProps> = ({ onAddUser, onEditUser, refreshKey }) => {
     const [loadingUsers, setLoadingUsers] = useState(false)
     const [users, setUsers] = useState<userColumns[]>([])
 
@@ -53,7 +55,7 @@ const UserList: React.FC<UserListProps> = ({ onAddUser }) => {
 
     useEffect(() => {
         handleLoadUsers();
-    }, [])
+    }, [refreshKey])
 
 
     return (
@@ -143,6 +145,7 @@ const UserList: React.FC<UserListProps> = ({ onAddUser }) => {
                                             <button
                                                 type="button"
                                                 className="text-green-600 font-medium cursor-pointer hover:underline"
+                                                onClick={() => onEditUser(user)}
                                             >
                                                 Edit
                                             </button>
