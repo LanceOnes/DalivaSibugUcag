@@ -1,10 +1,10 @@
 import AxiosInstance from "./Axiosinstance";
 
 const UserService = {
-  loadUsers: async () => {
+  loadUsers: async (page: number) => {
     try {
-      const response = await AxiosInstance.get('/user/loadUsers')
-      return response
+      const response = await AxiosInstance.get(`/user/loadUsers?page=${page}`);
+      return response;
     } catch (error) {
       throw error;
     }

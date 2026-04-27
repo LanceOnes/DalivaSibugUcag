@@ -33,6 +33,9 @@ const LoginForm: FC<LoginFormProps> = ({ message }) => {
                 message(error.response.data.message, true)
             } else if (error.response && error.response.status === 422) {
                 setErrors(error.response.data.errors)
+            } else if (!error.response) {
+                setErrors({})
+                message('Unable to connect to the server. Check your backend URL or start the server.', true)
             } else {
                 console.error('Unexpected server error occurred during logging in the user: ',
                     error
