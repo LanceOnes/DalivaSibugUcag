@@ -7,7 +7,7 @@ import {
     TableHeader,
     TableRow
 } from "../../../components/Table"
-import type { GenderColumns } from "../../../interfaces/GenderColumns"
+import type { GenderColumns } from "../../../interfaces/GenderInterface"
 import GenderService from "../../../services/GenderService"
 import Spinner from "../../../components/Spinner/Spinner"
 import { Link } from "react-router-dom";
@@ -47,7 +47,7 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
                 <div className="max-w-full max-h-[calc(100vh)] overflow-x-auto">
                     <Table>
-                        <TableHeader className="border-b border-gray-200 bg-blue-600 sticky top-0 text-white text-xs">
+                        <TableHeader className="border-b border-gray-200 bg-blue-600 text-white text-xs ">
                             <TableRow>
                                 <TableCell isHeader className="px-5 py-3 font-medium text-center">
                                     No.
@@ -69,7 +69,7 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
                                 </TableRow>
                             ) : genders.length ? (
                                 genders.map((gender, index) => (
-                                    <TableRow className="hover:bg-gray-100" key={index}>
+                                    <TableRow className="hover:bg-gray-100" key={gender.gender_id}>
                                         <TableCell className="px-4 py-3 text-center">
                                             {index + 1}
                                         </TableCell>
@@ -78,10 +78,10 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
                                         </TableCell>
                                         <TableCell className="px-4 py-3 text-center">
                                             <div className="flex justify-center items-center gap-4">
-                                                <Link to={`/gender/edit/${gender.gender_id}`} className="text-green-600 font-medium hover:underline">
+                                                <Link to={`/gender/edit/${gender.gender_id}`} className="text-green-600 font-medium cursor-pointer hover:underline">
                                                     Edit
                                                 </Link>
-                                                <Link to={`/gender/delete/${gender.gender_id}`} className="text-red-600 font-medium hover:underline">
+                                                <Link to={`/gender/delete/${gender.gender_id}`} className="text-red-600 font-medium cursor-pointer hover:underline">
                                                     Delete
                                                 </Link>
                                             </div>

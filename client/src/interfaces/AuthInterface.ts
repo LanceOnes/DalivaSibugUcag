@@ -5,6 +5,7 @@ export interface UserDetails {
         middle_name?: string;
         last_name: string;
         suffix_name?: string;
+        profile_picture?: string | null;
         gender: {
             gender_id: number;
             gender: string;

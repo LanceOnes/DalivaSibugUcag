@@ -48,11 +48,10 @@ const AppHeader = () => {
         return fullName;
     };
 
-    useEffect(() => {
-        if (user) {
-            handleUserFullNameFormat();
-        }
-    }, [user]);
+    const getUserInitials = () => {
+        if (!user) return "";
+        return `${user.user.last_name.charAt(0)}${user.user.first_name.charAt(0)}`.toUpperCase();
+    };
 
 
     return (
@@ -90,8 +89,17 @@ const AppHeader = () => {
                                         aria-expanded="false"
                                         data-dropdown-toggle="dropdown-user">
                                         <span className="sr-only">Open user menu</span>
-                                        <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                            alt="user photo" />
+                                        {user?.user.profile_picture ? (
+                                            <img
+                                                className="w-8 h-8 rounded-full object-cover"
+                                                src={user.user.profile_picture}
+                                                alt={handleUserFullNameFormat()}
+                                            />
+                                        ) : (
+                                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-700 text-sm font-semibold text-white">
+                                                {getUserInitials()}
+                                            </div>
+                                        )}
                                     </button>
                                 </div>
                                 <div className={`
